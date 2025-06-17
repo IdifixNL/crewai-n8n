@@ -7,7 +7,8 @@ A powerful automation platform that combines CrewAI's intelligent agent framewor
 This system creates an intelligent automation pipeline where:
 - **n8n** provides visual workflow design and orchestration
 - **CrewAI** delivers specialized AI agents with defined roles and capabilities  
-- **Ollama** serves local AI models (CodeLlama 70B, Mixtral) for privacy and control
+- **OpenAI** provides state-of-the-art models (GPT-4, recommended for best performance)
+- **Ollama** serves local AI models (CodeLlama 70B, Mixtral) as a privacy-focused alternative
 - **Open-WebUI** offers direct chat interface with AI models
 
 ### **Key Use Cases**
@@ -41,7 +42,8 @@ This system creates an intelligent automation pipeline where:
 
 ### **Prerequisites**
 - Docker & Docker Compose installed
-- 16GB+ RAM recommended (for CodeLlama 70B)
+- **OpenAI API Key** (recommended for best performance)
+- 16GB+ RAM (only needed if using local Ollama models)
 - Git for version control
 
 ### **1. Clone & Setup**
@@ -51,7 +53,8 @@ cd crewai-n8n
 
 # Copy environment template
 cp .env.example .env
-# Edit .env with your values (optional - works with Ollama by default)
+# Add your OpenAI API key to .env (recommended for best performance)
+# OPENAI_API_KEY=your_actual_api_key_here
 ```
 
 ### **2. Start the System**
@@ -71,17 +74,28 @@ docker compose ps
 - **CrewAI API**: http://localhost:8000
 - **API Health Check**: http://localhost:8000/health
 
-### **4. Download AI Models**
+### **4. AI Model Setup**
+
+#### **Option A: OpenAI (Recommended)**
+The system is pre-configured to use OpenAI models. Simply add your API key to `.env`:
 ```bash
-# Download CodeLlama 70B (primary model)
+# In your .env file
+OPENAI_API_KEY=your_actual_api_key_here
+```
+**Benefits**: Superior performance, faster responses, no local resource requirements.
+
+#### **Option B: Local Ollama Models (Privacy-focused)**
+```bash
+# Download CodeLlama 70B (primary local model)
 docker exec crewai-n8n-ollama-1 ollama pull codellama:70b-instruct
 
-# Download Mixtral (backup model)  
+# Download Mixtral (backup local model)  
 docker exec crewai-n8n-ollama-1 ollama pull mixtral:instruct
 
 # List available models
 docker exec crewai-n8n-ollama-1 ollama list
 ```
+**Benefits**: Complete privacy, no external API calls, one-time download.
 
 ## 🤖 **CrewAI API Reference**
 
@@ -181,14 +195,22 @@ Trigger → Strategy Agent → Risk Agent → Optimizer → Results
 1. **Create Agent File** in `crewai/agents/`:
 ```python
 from crewai import Agent
-from langchain_ollama import OllamaLLM
+from langchain_openai import ChatOpenAI  # Recommended
+# from langchain_ollama import OllamaLLM  # Alternative for local models
 
 class TradingStrategyAgent:
     def __init__(self):
-        self.llm = OllamaLLM(
-            model="codellama:70b-instruct",
-            base_url="http://ollama:11434"
+        # Option A: OpenAI (Recommended)
+        self.llm = ChatOpenAI(
+            model="gpt-4",
+            temperature=0.1
         )
+        
+        # Option B: Local Ollama (Privacy-focused)
+        # self.llm = OllamaLLM(
+        #     model="codellama:70b-instruct",
+        #     base_url="http://ollama:11434"
+        # )
         
         self.agent = Agent(
             role="Trading Strategy Analyst",
@@ -334,7 +356,8 @@ services:
 - 🌐 **Network Access**: Services communicate via Docker internal network
 - 🔑 **n8n Authentication**: Change default credentials in production
 - 🚫 **No Short Positions**: System designed for long-only trading strategies
-- 📊 **Local AI Models**: All AI processing happens locally (no external API calls)
+- 🤖 **AI Models**: OpenAI (recommended) or local Ollama models for privacy
+- 🔐 **API Keys**: OpenAI keys are encrypted in transit and stored securely
 
 ## 🎯 **Roadmap**
 
