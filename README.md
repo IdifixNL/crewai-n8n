@@ -147,7 +147,7 @@ crewai-n8n/
 │   │   └── base_task.py        # Base task template
 │   ├── __init__.py
 │   └── main.py                 # FastAPI application
-├── n8n-flows/                  # n8n workflow exports
+├── n8n-flows/                  # n8n workflow exports (private - not in git)
 ├── workspace/                  # Safe output directory
 ├── docs/                       # Documentation
 ├── docker-compose.yml          # Service orchestration
@@ -296,10 +296,10 @@ docker exec crewai-n8n-ollama-1 ollama list
 
 ## 🔄 **Backup & Recovery**
 
-### **Export n8n Workflows**
+### **Backup n8n Workflows (Private)**
 1. In n8n UI: Settings → Import/Export
-2. Export workflows to `n8n-flows/` directory
-3. Commit to git for version control
+2. Export workflows to local backup location
+3. **Note**: Workflows are kept private (not committed to public git)
 
 ### **Backup Data Volumes**
 ```bash

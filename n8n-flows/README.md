@@ -30,14 +30,23 @@ Run the backup script periodically:
 ./scripts/backup-n8n.sh
 ```
 
-## 📋 **Current Workflows**
+## 📋 **Workflow Management**
 
-- `crewai-integration.json` - Basic CrewAI API integration workflow
-- (Add your workflow files here and update this list)
+**Note**: Workflow JSON files are excluded from git (private business logic).
+
+## 🔒 **Privacy & Local Backup**
+
+Your workflows contain private business logic and are excluded from version control.
+
+### **Local Backup Options**:
+1. **Manual exports** to local file system outside git
+2. **Use backup script** with local storage only  
+3. **Private git repository** for workflows only
+4. **Cloud backup** (Dropbox, Google Drive, etc.)
 
 ## ⚠️ **Important Notes**
 
-- **Workflows are NOT automatically backed up**
+- **Workflows are private** - not shared in public repository
 - **Docker volume deletion will lose all workflows**
-- **Export manually or use backup script regularly**
-- **Team members need to import workflows manually** 
+- **Backup locally or to private storage regularly**
+- **Team sharing requires separate private repository/method** 

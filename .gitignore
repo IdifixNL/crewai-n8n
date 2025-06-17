@@ -27,4 +27,8 @@ Thumbs.db
 # Other sensitive files
 *.key
 *.pem
-secrets/ 
+secrets/
+
+# n8n workflows (private business logic)
+n8n-flows/*.json
+n8n-flows/workflows/ 
