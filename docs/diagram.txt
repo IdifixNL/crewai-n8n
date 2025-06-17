@@ -1,0 +1,9 @@
+
+System Architecture:
+
+┌────────────┐      ┌─────────────┐      ┌────────────┐
+│   n8n UI   │ ───▶ │ CrewAI API  │ ───▶ │ CodeLlama  │
+└────────────┘      └────┬────────┘      └────┬───────┘
+                         │                   │
+                    Web Tools            Workspace
+                 (via Langchain)         (File I/O)
